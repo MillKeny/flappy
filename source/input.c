@@ -18,7 +18,7 @@ void updateInput()
     kHeld = hidKeysHeld();
     kUp = hidKeysUp();
 
-    jumpButtons = kDown & KEY_B || kDown & KEY_UP;
+    jumpButtons = kDown & KEY_B || kDown & KEY_UP || kDown & KEY_DOWN || kDown & KEY_LEFT || kDown & KEY_RIGHT;
 
     hidTouchRead(&touch);
 }

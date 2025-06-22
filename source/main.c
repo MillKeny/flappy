@@ -190,7 +190,7 @@ int main(int argc, char* argv[]) {
 
 		C2D_SpriteSetPos(&bird[birdframe], birdy, birdx);
 		C2D_DrawSprite(&bird[birdframe]);
-		
+
 		// C2D_DrawCircleSolid(birdy, birdx, 0, 3, C2D_Color32(255, 0, 0, 255));
 
 		if (birdy <= GROUND) stopGame = true;

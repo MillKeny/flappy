@@ -1,3 +1,3 @@
-# Flappy Bird. Remake for Nintendo 3DS
+# Yet Another Flappy Bird for Nintendo 3DS
 
-To write more
+To write more...
