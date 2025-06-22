@@ -1,0 +1,21 @@
+--atlas -f rgba8888 -z auto 
+bg.png
+f1.png
+f2.png
+f3.png
+p1.png
+p2.png
+floor.png
+go.png
+ok.png
+tap.png
+gomenu.png
+new.png
+ready.png
+exit.png
+gomenu2.png
+logo.png
+y.png
+menubttn.png
+clear.png
+credit.png

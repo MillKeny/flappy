@@ -1,0 +1,8 @@
+**/.vscode/
+**/romfs
+**/build/
+*.3dsx
+*.cia
+*.elf
+*.lst
+*.smdh
