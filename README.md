@@ -27,8 +27,8 @@ Or you can build the project by yourself: Install [devkitPro](https://github.com
 
 ## Special Thanks
 
-*   @devkitPro - For all tools, libraries, docs and etc.
+*   [devkitPro](https://github.com/devkitPro) - For all tools, libraries, docs and etc.
     
-*   @BlyZeDev - For SD filesystem logic from his [T-Rex-Game-3DS](https://github.com/BlyZeDev/T-Rex-Game-3DS).
+*   [BlyZeDev](https://github.com/BlyZeDev) - For SD filesystem logic from his [T-Rex-Game-3DS](https://github.com/BlyZeDev/T-Rex-Game-3DS).
     
 *   Dong Nguyen, .GEARS - for this legendary game and original assets.
