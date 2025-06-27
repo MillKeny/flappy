@@ -40,7 +40,7 @@ GRAPHICS	:=	gfx
 #GFXBUILD	:=	$(BUILD)
 ROMFS		:=	romfs
 GFXBUILD	:=	$(ROMFS)/gfx
-APP_TITLE   :=  'Flappy Bird. 3DS Remake'
+APP_TITLE   :=  'Flappy Bird. 3DS Edition'
 APP_DESCRIPTION := 'Yet Another Flappy Bird. v1.0'
 APP_AUTHOR := 'MillKeny'
 
