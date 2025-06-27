@@ -10,6 +10,7 @@ Made in **vertical orientation**, like the original game. I didn't find any port
 *   **Tap bottom screen** or **press D-PAD or B** to flap between the pipes.
 *   For every 25 points you will earn a new medal - **bronze, silver, gold and platina** for 99 score
 *   Your best score is save in game and stored at path: SD:/config/millkeny/flappy.dat
+  
 *   There is no sound yet, but I will add it in future updates!
 *   Night mode will be added soon too!
 
