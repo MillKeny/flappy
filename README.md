@@ -20,7 +20,7 @@ Made in **vertical orientation**, like the original game. I didn't find any port
 ![2](/.page/2.png)  
 ![3](/.page/3.png)
 
-## How to Play
+## How to Install
 
 Just run **.3dsx** from [releases page](https://github.com/MillKeny/flappy/releases) on your hacked 3DS (Homebrew Launcher) or use an emulator!  
   
