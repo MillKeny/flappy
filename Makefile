@@ -40,9 +40,24 @@ GRAPHICS	:=	gfx
 #GFXBUILD	:=	$(BUILD)
 ROMFS		:=	romfs
 GFXBUILD	:=	$(ROMFS)/gfx
-APP_TITLE   :=  'Flappy Bird. 3DS Edition'
-APP_DESCRIPTION := 'Yet Another Flappy Bird. v1.0'
+APP_TITLE   :=  'Flappy Bird'
+APP_DESCRIPTION := 'Yet Another Flappy Bird'
 APP_AUTHOR := 'MillKeny'
+
+ICON                :=	assets/icon.png
+
+BANNER_AUDIO        :=	assets/audio.wav
+BANNER_IMAGE        :=	assets/banner.png
+
+RSF_PATH            :=	assets/app.rsf
+
+# If left blank, makerom will use default values (0xff3ff and CTR-P-CTAP, respectively)
+# Be careful if UNIQUE_ID is the same as other apps: it will overwrite the previously installed one
+UNIQUE_ID           :=	0x711AB
+PRODUCT_CODE        :=	CTR-P-FLPY
+
+# Don't really need to change this
+ICON_FLAGS          :=	nosavebackups,visible
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -166,6 +181,54 @@ endif
 #---------------------------------------------------------------------------------
 all: $(BUILD) $(GFXBUILD) $(DEPSDIR) $(ROMFS_T3XFILES) $(T3XHFILES)
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
+
+$(BUILD):
+	@mkdir -p $@
+
+ifneq ($(GFXBUILD),$(BUILD))
+$(GFXBUILD):
+	@mkdir -p $@
+endif
+
+ifneq ($(DEPSDIR),$(BUILD))
+$(DEPSDIR):
+	@mkdir -p $@
+endif
+
+#---------------------------------------------------------------------------------
+
+MAKEROM		?=	makerom
+
+MAKEROM_ARGS		:=	-elf "$(OUTPUT).elf" -rsf "$(RSF_PATH)" -banner "$(BUILD)/banner.bnr" -icon "$(BUILD)/icon.icn" -DAPP_TITLE="$(APP_TITLE)" -DAPP_PRODUCT_CODE="$(PRODUCT_CODE)" -DAPP_UNIQUE_ID="$(UNIQUE_ID)"
+
+ifneq ($(strip $(LOGO)),)
+	MAKEROM_ARGS	+=	 -logo "$(LOGO)"
+endif
+ifneq ($(strip $(ROMFS)),)
+	MAKEROM_ARGS	+=	 -DAPP_ROMFS="$(ROMFS)"
+endif
+
+BANNERTOOL	?=	bannertool
+
+ifeq ($(suffix $(BANNER_IMAGE)),.cgfx)
+	BANNER_IMAGE_ARG := -ci
+else
+	BANNER_IMAGE_ARG := -i
+endif
+
+ifeq ($(suffix $(BANNER_AUDIO)),.cwav)
+	BANNER_AUDIO_ARG := -ca
+else
+	BANNER_AUDIO_ARG := -a
+endif
+
+#---------------------------------------------------------------------------------
+
+all: $(BUILD) $(GFXBUILD) $(DEPSDIR) $(ROMFS_T3XFILES) $(T3XHFILES) $(OUTDIR)
+	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
+	@$(BANNERTOOL) makebanner $(BANNER_IMAGE_ARG) "$(BANNER_IMAGE)" $(BANNER_AUDIO_ARG) "$(BANNER_AUDIO)" -o "$(BUILD)/banner.bnr"
+	@$(BANNERTOOL) makesmdh -s "$(APP_TITLE)" -l "$(APP_DESCRIPTION)" -p "$(APP_AUTHOR)" -i "$(APP_ICON)" -f "$(ICON_FLAGS)" -o "$(BUILD)/icon.icn"
+	$(MAKEROM) -f cia -o "$(OUTPUT).cia" -target t -exefslogo $(MAKEROM_ARGS)
 
 $(BUILD):
 	@mkdir -p $@
