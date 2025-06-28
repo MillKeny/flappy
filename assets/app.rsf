@@ -1,16 +1,15 @@
 BasicInfo:
-  Title                   : Flappy Bird
-  ProductCode             : CTR-P-FLPY
-  CompanyCode             : "00"
+  Title                   : $(APP_TITLE)
+  ProductCode             : $(APP_PRODUCT_CODE)
   Logo                    : Nintendo # Nintendo / Licensed / Distributed / iQue / iQueForSystem
 
 RomFs:
   # Specifies the root path of the read only file system to include in the ROM.
-  RootPath                : romfs
+  RootPath                : $(APP_ROMFS)
 
 TitleInfo:
   Category                : Application
-  UniqueId                : 0x711AB
+  UniqueId                : $(APP_UNIQUE_ID)
 
 Option:
   UseOnSD                 : true # true if App is to be installed to SD
@@ -18,7 +17,7 @@ Option:
   MediaFootPadding        : false # If true CCI files are created with padding
   EnableCrypt             : false # Enables encryption for NCCH and CIA
   EnableCompress          : true # Compresses where applicable (currently only exefs:/.code)
-  
+ 
 AccessControlInfo:
   CoreVersion                   : 2
 

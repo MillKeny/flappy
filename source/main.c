@@ -41,6 +41,13 @@ int main(int argc, char* argv[]) {
 //---------------------------------------------------------------------------------
 	romfsInit();
 	gfxInitDefault();
+	u8 model;
+	CFGU_GetSystemModel(&model);
+
+	if (model != CFG_MODEL_2DS)
+	{
+		gfxSetWide(true);
+	}
 	C3D_Init(C3D_DEFAULT_CMDBUF_SIZE);
 	C2D_Init(C2D_DEFAULT_MAX_OBJECTS);
 	C2D_Prepare();

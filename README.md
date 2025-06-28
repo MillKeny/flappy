@@ -25,9 +25,9 @@ Made in **vertical orientation**, like the original game. I didn't find any port
 
 ## How to Install
 
-*   Install it on your system with FBI using **.cia** file or scanning the **QR code** from [releases page](https://github.com/MillKeny/flappy/releases).
-*   Just run **.3dsx** from [releases page](https://github.com/MillKeny/flappy/releases) in Homebrew Launcher or use an emulator!
-*   Or you can build the project by yourself: Install [devkitPro](https://github.com/devkitPro/installer/releases) and "make" the project. Search internet for more!
+*   3DSX - Copy .3dsx from [releases page](https://github.com/MillKeny/flappy/releases) to 3ds folder on your SD card and run it via Homebrew Launcher or emulator.
+*   CIA - Install the .cia or scan the QR Code from [releases page](https://github.com/MillKeny/flappy/releases) with the CIA manager of your choice.
+*   Or you can build the project by yourself: Install [devkitPro](https://github.com/devkitPro/installer/releases) and "make" the project. Search internet for more.
 
 ## Special Thanks
 
