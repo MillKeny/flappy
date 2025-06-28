@@ -3,7 +3,7 @@
 ![Game Banner](/assets/banner_page.png)  
 
 Yet another "**Flappy Bird**" mobile game homebrew recreation for Nintendo 3DS (old/new)  
-Made in **vertical orientation**, like the original game. I didn't find any port for 3DS in this format, so I decide to make it by myself. This is my first homebrew game ever, and first project in C ever. I hope you will have fun with it.  
+Made in **vertical orientation**, like the original game. I didn't find any port for 3DS in this format, so I decided to make it by myself. This is my first homebrew game ever, and first project in C too. I hope you will have fun with it.  
   
 [GBAtemp thread](https://gbatemp.net/threads/flappy-bird-in-vertical-orientation.672726)
 
