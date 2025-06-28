@@ -13,6 +13,6 @@ float random_number(float min, float max);
 void generatePlumb(int i, bool init);
 void showDigits(int nmber, int x, int y, float size);
 float InOutEase(float t);
-bool checkTouch(C2D_Sprite sprite, float offset);
+bool checkTouch(C2D_Sprite sprite, float offset, bool held);
 
 #endif

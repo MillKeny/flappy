@@ -60,13 +60,18 @@ float InOutEase(float t)
     return 2.0f * t * (1.0f - t) + 0.5f;
 }
 
-bool checkTouch(C2D_Sprite sprite, float offset) {
+bool checkTouch(C2D_Sprite sprite, float offset, bool held) {
 	if (touch.px > sprite.params.pos.x+offset-sprite.params.pos.h/2 &&
 		touch.px < sprite.params.pos.x-offset+sprite.params.pos.h/2 &&
 		touch.py > sprite.params.pos.y+offset-sprite.params.pos.w/2 &&
 		touch.py < sprite.params.pos.y-offset+sprite.params.pos.w/2
-	) return true;
-	else return false;
+	) {
+		if (!held) {
+			if (kDown & KEY_TOUCH) return true;
+		} else return true;
+	}
+	
+	return false;
 }
 
 void initSprites(){

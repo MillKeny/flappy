@@ -40,9 +40,9 @@ GRAPHICS	:=	gfx
 #GFXBUILD	:=	$(BUILD)
 ROMFS		:=	romfs
 GFXBUILD	:=	$(ROMFS)/gfx
-APP_TITLE   :=  'Flappy Bird'
-APP_DESCRIPTION := 'Yet Another Flappy Bird'
-APP_AUTHOR := 'MillKeny'
+APP_TITLE   :=  Flappy Bird
+APP_DESCRIPTION := Yet Another Flappy Bird
+APP_AUTHOR := MillKeny
 
 ICON                :=	assets/icon.png
 
@@ -246,7 +246,7 @@ endif
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
-	@rm -fr $(BUILD) $(TARGET).3dsx $(OUTPUT).smdh $(TARGET).elf $(GFXBUILD)
+	@rm -fr $(BUILD) $(TARGET).3dsx $(OUTPUT).smdh $(TARGET).elf $(GFXBUILD) $(TARGET).cia
 
 #---------------------------------------------------------------------------------
 $(GFXBUILD)/%.t3x	$(BUILD)/%.h	:	%.t3s

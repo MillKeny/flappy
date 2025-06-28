@@ -96,7 +96,7 @@ int main(int argc, char* argv[]) {
 		else if ((jumpButtons || kDown & KEY_TOUCH) && !stopGame)
 			vely = -jumpStrength;
 
-		if ((jumpButtons || kDown & KEY_TOUCH) && inReady && !checkTouch(menubttn, 0) && !inMenu) {
+		if ((jumpButtons || kDown & KEY_TOUCH) && inReady && !checkTouch(menubttn, 0, false) && !inMenu) {
 			inReady = false;
 			smenuanim = 0.5f;
 		}
@@ -231,7 +231,7 @@ int main(int argc, char* argv[]) {
 				
 				C2D_DrawSprite(&clear);
 
-				if (checkTouch(clear, 5)) {
+				if (checkTouch(clear, 5, false)) {
 					writeHighscore((u32)0);
 					best = readHighscore();
 					setMedal(best, &bestmedal);
@@ -240,7 +240,7 @@ int main(int argc, char* argv[]) {
 			}
 		
 		
-			if (checkTouch(menubttn, 0) && kDown & KEY_TOUCH) {
+			if (checkTouch(menubttn, 0, false) && kDown & KEY_TOUCH) {
 				if (!inMenu) inMenu = true;
 				else inMenu = false;
 			}
@@ -283,7 +283,7 @@ int main(int argc, char* argv[]) {
 
 				C2D_DrawSprite(&ok);
 
-				if (checkTouch(ok, 0) || jumpButtons
+				if (checkTouch(ok, 0, false) || jumpButtons
 				) {
 					for (size_t i = 0; i < 4; i++) generatePlumb(i, true);
 					birdy = 226;
