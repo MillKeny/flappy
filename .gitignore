@@ -1,9 +1,13 @@
 **/.vscode/
 **/romfs
 **/build/
+**/_gitignore/
 *.3dsx
 *.cia
+*.cxi
 *.elf
 *.lst
 *.smdh
 *.zip
+*.exe
+*.bnr

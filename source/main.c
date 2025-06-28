@@ -8,6 +8,9 @@ by MillKeny
 Started 19.06.2025
 Last Updated 23.06.2025
 
+cxitool -b .page/banner.png flappy.3dsx flappy.cxi
+makerom -f cia -o flappy.cia -target t -i flappy.cxi:0:0 -ignoresign
+
 */
 
 #include <citro2d.h>
