@@ -37,9 +37,11 @@ SOURCES		:=	source
 DATA		:=	data
 INCLUDES	:=	include
 GRAPHICS	:=	gfx
+SOUNDS		:=  sfx
 #GFXBUILD	:=	$(BUILD)
 ROMFS		:=	romfs
 GFXBUILD	:=	$(ROMFS)/gfx
+SFXBUILD 	:=	$(ROMFS)/sfx
 APP_TITLE   :=  Flappy Bird
 APP_DESCRIPTION := Yet Another Flappy Bird
 APP_AUTHOR := MillKeny
@@ -58,6 +60,9 @@ PRODUCT_CODE        :=	CTR-P-FLPY
 
 # Don't really need to change this
 ICON_FLAGS          :=	nosavebackups,visible
+
+SFX_SRATE 			:= 24000
+SFX_CHANNELS		:= 2
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -107,6 +112,9 @@ PICAFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.v.pica)))
 SHLISTFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.shlist)))
 GFXFILES	:=	$(foreach dir,$(GRAPHICS),$(notdir $(wildcard $(dir)/*.t3s)))
 BINFILES	:=	$(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*)))
+WAVS 		:=  $(wildcard $(SOUNDS)/*.wav)
+BINS 		:=  $(patsubst $(SOUNDS)/%.wav, $(SFXBUILD)/%.bin, $(WAVS))
+
 
 #---------------------------------------------------------------------------------
 # use CXX for linking C++ projects, CC for standard C
@@ -179,7 +187,7 @@ endif
 .PHONY: all clean
 
 #---------------------------------------------------------------------------------
-all: $(BUILD) $(GFXBUILD) $(DEPSDIR) $(ROMFS_T3XFILES) $(T3XHFILES)
+all: $(BUILD) $(GFXBUILD) $(DEPSDIR) $(ROMFS_T3XFILES) $(T3XHFILES) $(BINS)
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
 
 $(BUILD):
@@ -224,6 +232,13 @@ endif
 
 #---------------------------------------------------------------------------------
 
+$(SFXBUILD)/%.bin: $(SOUNDS)/%.wav
+	@mkdir -p $(SFXBUILD)
+	@echo $(notdir $<)
+	@ffmpeg -y -i $< -f s16le -ar $(SFX_SRATE) -ac $(SFX_CHANNELS) $@ -loglevel quiet
+
+#---------------------------------------------------------------------------------
+
 cia: $(BUILD) $(GFXBUILD) $(DEPSDIR) $(ROMFS_T3XFILES) $(T3XHFILES) $(OUTDIR)
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
 	@$(BANNERTOOL) makebanner $(BANNER_IMAGE_ARG) "$(BANNER_IMAGE)" $(BANNER_AUDIO_ARG) "$(BANNER_AUDIO)" -o "$(BUILD)/banner.bnr"
@@ -246,13 +261,15 @@ endif
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
-	@rm -fr $(BUILD) $(TARGET).3dsx $(OUTPUT).smdh $(TARGET).elf $(GFXBUILD) $(TARGET).cia
+	@rm -fr $(BUILD) $(TARGET).3dsx $(OUTPUT).smdh $(TARGET).elf $(GFXBUILD) $(TARGET).cia $(SFXBUILD)/*.bin
 
 #---------------------------------------------------------------------------------
 $(GFXBUILD)/%.t3x	$(BUILD)/%.h	:	%.t3s
 #---------------------------------------------------------------------------------
 	@echo $(notdir $<)
 	@tex3ds -i $< -H $(BUILD)/$*.h -d $(DEPSDIR)/$*.d -o $(GFXBUILD)/$*.t3x
+
+#---------------------------------------------------------------------------------
 
 #---------------------------------------------------------------------------------
 else

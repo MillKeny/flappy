@@ -7,6 +7,8 @@ extern C2D_Sprite digits[10];
 extern C2D_Sprite medals[4];
 
 void initSprites();
+void initNightSprites();
+void superBird();
 void yhyn();
 
 float random_number(float min, float max);

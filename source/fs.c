@@ -1,3 +1,9 @@
+/*
+
+Thanks https://github.com/BlyZeDev for most of this code :)
+
+*/ 
+
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>

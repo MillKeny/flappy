@@ -1,26 +1,29 @@
 /*
 
-Flappy Bird Remake for 3DS | v1.0
-	(as first attempt to make homebrew game)
+Flappy Bird Remake for 3DS | v1.1
+	(as my first attempt to make homebrew game)
 
 by MillKeny
 
-Started 19.06.2025
-Last Updated 23.06.2025
+https://github.com/MillKeny/flappy
 
-cxitool -b .page/banner.png flappy.3dsx flappy.cxi
-makerom -f cia -o flappy.cia -target t -i flappy.cxi:0:0 -ignoresign
+Started 19.06.2025
+Last Updated 28.06.2025
 
 */
 
-#include <citro2d.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+
+#include <citro2d.h>
+#include <3ds.h>
 
 #include "fs.h"
 #include "sprites.h"
 #include "input.h"
+#include "audio.h"
 
 #define WIDTH 400
 #define BOTTOM_WIDTH 320
@@ -41,6 +44,9 @@ int main(int argc, char* argv[]) {
 //---------------------------------------------------------------------------------
 	romfsInit();
 	gfxInitDefault();
+	csndInit();
+
+	/*
 	u8 model;
 	CFGU_GetSystemModel(&model);
 
@@ -48,12 +54,15 @@ int main(int argc, char* argv[]) {
 	{
 		gfxSetWide(true);
 	}
+	*/
+
 	C3D_Init(C3D_DEFAULT_CMDBUF_SIZE);
 	C2D_Init(C2D_DEFAULT_MAX_OBJECTS);
 	C2D_Prepare();
 
 	initSd();
 	initSprites();
+	initSfx();
 
 	C3D_RenderTarget* top = C2D_CreateScreenTarget(GFX_TOP, GFX_LEFT);
 	C3D_RenderTarget* bottom = C2D_CreateScreenTarget(GFX_BOTTOM, GFX_LEFT);
@@ -84,10 +93,17 @@ int main(int argc, char* argv[]) {
 	int bestmedal = 0;
 	bool isScored = false;
 	bool newBest = false;
+	float scoreanim = 0.5f;
 
 	int fade = 255;
 	float smenuanim = 0.5f;
 
+	time_t unixTime = time(NULL);
+	struct tm* timeStruct = gmtime((const time_t *)&unixTime);
+	int hours = timeStruct->tm_hour;
+	if (hours >= 21 || hours <= 9) initNightSprites();
+
+	if (best == 99) superBird();
 	if (best > 99) yhyn();
 	
 //---------------------------------------------------------------------------------
@@ -100,8 +116,10 @@ int main(int argc, char* argv[]) {
 
 		if (kDown & KEY_START)
 			break;
-		else if ((jumpButtons || kDown & KEY_TOUCH) && !stopGame)
+		else if ((jumpButtons || kDown & KEY_TOUCH) && !stopGame){
 			vely = -jumpStrength;
+			playSound(&sfxWing);
+		}
 
 		if ((jumpButtons || kDown & KEY_TOUCH) && inReady && !checkTouch(menubttn, 0, false) && !inMenu) {
 			inReady = false;
@@ -115,12 +133,13 @@ int main(int argc, char* argv[]) {
 
 		C2D_TargetClear(top, clrClear);
 		C2D_SceneBegin(top);
-
+		
 		if(stopGame) {
 			if (!birdDied){
 				vely = -jumpStrength/1.25f;
+				playSound(&sfxHit);
 				birdDied = true;
-			}
+			} else if (vely > 1 && sfxDie.played == false) playSound(&sfxDie);
 			C2D_Fade(C2D_Color32(255, 255, 255, fade));
 		}
 		
@@ -147,12 +166,13 @@ int main(int argc, char* argv[]) {
 			if (birdx >= pl[i].params.pos.y - 26 && birdx < pl[i].params.pos.y && !isScored && score < 99 && !stopGame && !inReady) {
 				score++;
 				isScored = true;
+				playSound(&sfxPoint);
 			} else if (birdx > pl[i].params.pos.y+10 && isScored)
 			{
 				isScored = false;
 			}
 
-			// C2D_DrawCircleSolid(pl[i].params.pos.x, pl[i].params.pos.y+10, 0, 3, C2D_Color32(255, 0, 0, 255));
+				// C2D_DrawCircleSolid(pl[i].params.pos.x, pl[i].params.pos.y+10, 0, 3, C2D_Color32(255, 0, 0, 255));
 			
 		}
 
@@ -179,7 +199,7 @@ int main(int argc, char* argv[]) {
 
 		if (inReady) {
 			C2D_DrawSprite(&credit);
-			
+
 			C2D_SpriteSetRotationDegrees(&bird[birdframe], 90);
 			vely = 0;
 
@@ -201,7 +221,7 @@ int main(int argc, char* argv[]) {
 		C2D_SpriteSetPos(&bird[birdframe], birdy, birdx);
 		C2D_DrawSprite(&bird[birdframe]);
 
-		// C2D_DrawCircleSolid(birdy, birdx, 0, 3, C2D_Color32(255, 0, 0, 255));
+			// C2D_DrawCircleSolid(birdy, birdx, 0, 3, C2D_Color32(255, 0, 0, 255));
 
 		if (birdy <= GROUND) stopGame = true;
 
@@ -265,7 +285,10 @@ int main(int argc, char* argv[]) {
 			if (fade-fadeSpeed > 0) fade -= fadeSpeed;
 			else fade = 0;
 
-			if (smenuanim < 1.0f) smenuanim += 0.018f;
+			if (smenuanim < 1.0f && birdy <= GROUND) {
+				smenuanim += 0.018f;
+				if (sfxSwooshing.played == false) playSound(&sfxSwooshing);
+			}
 
 			C2D_SpriteSetPos(&go, 250, HEIGHT/2);
 			C2D_DrawSprite(&go);
@@ -280,7 +303,9 @@ int main(int argc, char* argv[]) {
 			C2D_DrawSprite(&smenu);
 
 			if (smenuanim >= 1.0f){
-				showDigits(score, 133+42, 200, 1);
+				if (scoreanim < 0.9f) scoreanim += 0.015f;
+				else scoreanim = 1.0f;
+				showDigits((int)(score*InOutEase(scoreanim)), 133+42, 200, 1);
 				showDigits(best, 133, 200, 1);
 				
 				if (newBest) C2D_DrawSprite(&news);
@@ -300,7 +325,10 @@ int main(int argc, char* argv[]) {
 					newBest = false;
 					isScored = false;
 					smenuanim = 0.5f;
+					scoreanim = 0.5f;
 					birdDied = false;
+					sfxSwooshing.played = false;
+					sfxDie.played = false;
 				}
 			}
 		}
@@ -314,8 +342,9 @@ int main(int argc, char* argv[]) {
 	C2D_Fini();
 	C3D_Fini();
 	gfxExit();
-	romfsExit();
+	csndExit();
 	exitSd();
+	romfsExit();
 
 	return 0;
 }

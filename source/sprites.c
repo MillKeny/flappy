@@ -219,8 +219,43 @@ void initSprites(){
 	C2D_SpriteSetRotationDegrees(&credit, 90);
 }
 
+void superBird() {
+	spriteSheet = C2D_SpriteSheetLoad("romfs:/gfx/sprites.t3x");
+	if (!spriteSheet) svcBreak(USERBREAK_PANIC);
+	
+	for (size_t i = 0; i < 3; i++){
+		C2D_SpriteFromSheet(&bird[i], spriteSheet, i+20);
+		C2D_SpriteSetCenter(&bird[i], 0.45f, 0.5f);
+		C2D_SpriteSetRotationDegrees(&bird[i], 90);
+		C2D_SpriteSetScale(&bird[i], 2, 2);
+	}
+}
+
+void initNightSprites(){
+	spriteSheet = C2D_SpriteSheetLoad("romfs:/gfx/night.t3x");
+	if (!spriteSheet) svcBreak(USERBREAK_PANIC);
+
+	// Background Night
+	C2D_SpriteFromSheet(&bg, spriteSheet, 3);
+	C2D_SpriteSetCenter(&bg, 0, 0);
+	C2D_SpriteSetPos(&bg, WIDTH, 0);
+	C2D_SpriteSetRotationDegrees(&bg, 90);
+	C2D_SpriteSetScale(&bg, 2, 2);
+
+	// Bird Night
+	for (size_t i = 0; i < 3; i++){
+		C2D_SpriteFromSheet(&bird[i], spriteSheet, i);
+		C2D_SpriteSetCenter(&bird[i], 0.45f, 0.5f);
+		C2D_SpriteSetRotationDegrees(&bird[i], 90);
+		C2D_SpriteSetScale(&bird[i], 2, 2);
+	}
+}
+
 void yhyn() {
 	// Ը
+	spriteSheet = C2D_SpriteSheetLoad("romfs:/gfx/sprites.t3x");
+	if (!spriteSheet) svcBreak(USERBREAK_PANIC);
+
 	for (size_t i = 0; i < 3; i++){
 		C2D_SpriteFromSheet(&bird[i], spriteSheet, 16);
 		C2D_SpriteSetCenter(&bird[i], 0.5f, 0.5f);
