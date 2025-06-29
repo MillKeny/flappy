@@ -14,14 +14,17 @@ Made in **vertical orientation**, like the original game. I didn't find any port
 *   Game's speed is increasing for each score point.
 *   For every 25 points you will earn a new medal - **bronze, silver, gold and platina**. And for platina (99 score) you will unlock the **SuperBird**!
 *   Your best score is save in game and stored at path: SD:/config/millkeny/flappy.dat. You also can clear your save data from in-game menu.
-*   Night mode depends on real time on your device. It will be turned on between 21:00 and 06:00.
+*   Night Mode depends on real time on your device. It will be turned on between 21:00 and 06:00.
     
-## Screenshots
+<details>
+<summary><h2>Screenshots</h2></summary>
 
 ![Screenshot 1](/assets/1.png)  
 ![Screenshot 2](/assets/2.png)  
 ![Screenshot 3](/assets/3.png)  
 ![Screenshot 4](/assets/4.png)
+
+</details>
 
 ## How to Install
 
